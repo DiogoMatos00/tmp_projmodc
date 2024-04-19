@@ -60,22 +60,20 @@ public class User extends Thread {
                     String password = b.get(2);
 
                     if(statement.executeQuery(String.format("SELECT Name FROM Users WHERE Name = '%s'", username)).next()){
-                        System.out.println("Exist");
+                        // System.out.println("Exist");
                         this.out.println("Utilizador já existente!");
-                        //TODO: Send Error msg to user (User already exist)
                     } else{
                         statement.executeUpdate(String.format("INSERT INTO Users (Name, Password) " +
                                 "VALUES ('%s', '%s')", username, password));
 
                         System.out.println("User successfully registered!");
                         this.out.println("success");
-                        //TODO: Send successfully message to user (User registered)
                     }
                 } else if (b.get(0).equals("$login")) {
                     String username = b.get(1);
                     String password = b.get(2);
 
-                    System.out.println(String.format("SELECT Name FROM Users WHERE Name = '%s' AND Password = '%s'", username, password));
+                    //System.out.println(String.format("SELECT Name FROM Users WHERE Name = '%s' AND Password = '%s'", username, password));
 
                     if(statement.executeQuery(String.format("SELECT Name FROM Users WHERE Name = '%s' AND Password = '%s'", username, password)).next()) {
                         this.username = username;
@@ -83,7 +81,7 @@ public class User extends Thread {
                         this.out.println("success");
                         connect();
                     } else {
-                        System.out.println("ERROR!");
+                        System.out.println("User e password não estão corretas!");
                         this.out.println("User e password não estão corretas!");
                     }
 
@@ -108,14 +106,6 @@ public class User extends Thread {
 
     }
 
-    private void listUsers() {
-        //TODO: List all users in the db
-    }
-
-    private void changeUser() {
-        //TODO: Changes in which chat we are
-    }
-
     private void connect() throws IOException, SQLException {
         String userReceiver = null;
         String message;
@@ -136,32 +126,15 @@ public class User extends Thread {
                 b.remove(i);
             }
 
-            System.out.println(b.toString());
+            System.out.println(" ");
 
 
-/*            String[] userSplit = message.split(" ");
-            if(userSplit[0].equals("$cu")) {
-                if ((userSplit = message.split(" ")).length <= 1 || userSplit.length > 2) {
-                    //TODO: ERROR THAT YOU NEED To INTRODUCE A USER
-                    //TODO: Error that user only has one name
-                    System.out.println("ERROR!");
-                }else {
-                    if(statement.executeQuery(String.format("SELECT Name FROM Users WHERE Name = '%s'", userSplit[1])).next()) {
-                        System.out.println("User changed!");
-                        System.out.println(userSplit[1]);
-                        userReceiver = userSplit[1];
-                    } else{
-                        System.out.println("User doesn't exit");
-                    }
-                }
-            } else*/ if (b.get(0).equals("$lu")){
+            if (b.get(0).equals("$lu")){
                 ResultSet resultSet = statement.executeQuery("SELECT Name FROM Users");
                 ArrayList<String> luser = new ArrayList<String>();
                 while(resultSet.next()){
                     luser.add(resultSet.getString("Name"));
                 }
-
-                //System.out.println(luser);
 
                 String send = "";
                 for(String name:luser){
@@ -186,8 +159,8 @@ public class User extends Thread {
                 statement.executeUpdate(String.format("INSERT INTO Messages (NameUser, Content, Receiver) " +
                         "VALUES ('%s', '%s', '%s')", username, content, receiver));
 
-                System.out.println("To: " + receiver);
-                System.out.println("msg: " + content);
+                //System.out.println("To: " + receiver);
+                //System.out.println("msg: " + content);
 
                 //userA.out.println("$newMsg " + username + b.get(2));
             } else if (b.get(0).equals("$get")) {
@@ -201,19 +174,11 @@ public class User extends Thread {
                     }
                 }
 
-                System.out.println(a);
+                //System.out.println(a);
                 this.out.println(a);
             } else if (b.get(0).equals("$getMyName")) {
                 this.out.println(username);
             }
-
-            /* if (userReceiver != null) {
-                this.out.println(message);
-                System.out.println(message);
-            } else {
-                System.out.println("You need to choose a user!");
-            }*/
-
         }
     }
 
@@ -229,5 +194,3 @@ public class User extends Thread {
         this.newMessage = set;
     }
 }
-
-//TODO DIFERENÇAS PARA DAR COMMIT MELHORES MENSAGENS DE ERROS

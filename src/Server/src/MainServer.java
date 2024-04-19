@@ -14,12 +14,6 @@ public class MainServer {
                 .getConnection("jdbc:mysql://localhost/modc_project?"
                         + "user=root&password=admin");
 
-        /*
-        ResultSet resultset = conn.createStatement().executeQuery("SELECT * FROM Users");
-        resultset.next();
-        System.out.println(resultset.getString("Password"));
-        */
-
         connections = new ArrayList<>();
         serverSocket = new ServerSocket(port);
         acceptUsers();

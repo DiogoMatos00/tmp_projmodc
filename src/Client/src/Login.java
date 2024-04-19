@@ -43,26 +43,31 @@ public class Login extends Application {
             String username = usernameField.getText();
             String password = passwordField.getText();
 
-            GlobalVariables.out.println(String.format("\"$login\" \"%s\" \"%s\"", username, password));
+            if(username.equals("") || password.equals("")){
+                showErrorAlert("Utilizador ou passwsord inválidos");
+            }else {
 
-            String success;
+                GlobalVariables.out.println(String.format("\"$login\" \"%s\" \"%s\"", username, password));
 
-            try {
-                success = GlobalVariables.in.readLine();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+                String success;
 
-            if (success.matches("success")) {
-                // Login successful, switch to chat page
-                ChatPage chatPage = new ChatPage();
                 try {
-                    chatPage.start(primaryStage);
+                    success = GlobalVariables.in.readLine();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-            } else {
-                showErrorAlert(success);
+
+                if (success.matches("success")) {
+                    // Login successful, switch to chat page
+                    ChatPage chatPage = new ChatPage();
+                    try {
+                        chatPage.start(primaryStage);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    showErrorAlert(success);
+                }
             }
         });
 

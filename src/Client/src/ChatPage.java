@@ -92,14 +92,13 @@ public class ChatPage extends Application {
                 try {
                     receivedMessagesTextArea.clear();
                     String allmsgs = GlobalVariables.in.readLine();
-                    System.out.println(allmsgs);
                     ArrayList<String> b = new ArrayList<>(Arrays.asList(allmsgs.trim().split("\"")));
 
                     for(int i = 0; i<b.size(); i++){
                         b.remove(i);
                     }
 
-                    //System.out.println(b.toString());
+                    System.out.println(b.toString());
 
                     for(int i = 0; i<b.size()-2; i=i+3) {
 
@@ -221,7 +220,4 @@ public class ChatPage extends Application {
         MainPage mainPage = new MainPage();
         mainPage.start(mainStage);
     }
-
-
-    //TODO: Refreshs buttons not working proprely
 }
